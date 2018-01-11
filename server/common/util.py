@@ -1,6 +1,8 @@
 """Módulo utilitário"""
 
 from datetime import datetime
+from json import dumps
+import flask
 
 
 def hora_atual():
@@ -9,6 +11,9 @@ def hora_atual():
     return hora
 
 
-def send_response(data, status=200, error=None):
-    """Wrapper que é responsável por padronizar as respostas feitas pelo servidor"""
-    return {'data': data, 'status': status, 'error': error  }
+class Response(flask.Response):
+
+    def __init__(self, data, status=200, headers=None):
+        if headers is None: headers = {}
+        headers['Content-type'] = 'application/json'
+        super().__init__(response=dumps(data), status=200, headers=headers)
