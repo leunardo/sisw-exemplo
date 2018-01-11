@@ -2,10 +2,12 @@ from sys import stderr
 import MySQLdb
 from MySQLdb.cursors import DictCursor
 
-class db:
+
+class Db:
     """Classe responsavel por fazer a comunicacao com o banco de dados."""
 
-    def _connect(self):
+    @staticmethod
+    def _connect():
         try:
             return MySQLdb.connect(host='localhost', 
                                    user='leo', 
