@@ -1,15 +1,17 @@
 from repositories.usuario import RepositoryUsuario
+from common.util import Response
 from flask_restful import Resource
-from common.util import send_response
+from flask import make_response
+import json
+# from common.util import send_response
 
 
 class UsuarioResource(Resource):
-
     def __init__(self):
         self._repository = RepositoryUsuario()
 
     def get(self, nome=None):
         if nome:
-            return send_response(self._repository.getUser(nome))
+            return make_response(self._repository.get_user(nome))
         else:
-            return send_response(self._repository.getAllUsers())
+            return make_response(Response(self._repository.get_all_users()))
