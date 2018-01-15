@@ -9,14 +9,22 @@ class Db:
     @staticmethod
     def _connect():
         try:
-            return MySQLdb.connect(host='localhost', 
-                                   user='leo', 
-                                   passwd='1234', 
-                                   db='p_test', 
-                                   cursorclass=DictCursor)
+            db = MySQLdb.connect(host='localhost',
+                                 user='leo',
+                                 passwd='1234',
+                                 db='p_test',
+                                 cursorclass=DictCursor)
+
+            db.autocommit(True)
+            return db
 
         except Exception as err:
             print('Problema ao conectar-se com o banco de dados: ', err, file=stderr)
+
+    @staticmethod
+    def dispose(db, cursor):
+        cursor.close()
+        db.close()
 
     def query(self, query, *args):
         """Executa determinada query.
@@ -28,12 +36,19 @@ class Db:
         """
         db = self._connect()
         c = db.cursor()
+        c.execute(query, args)
+        dados = c.fetchall()
+        self.dispose(db, c)
+
+        return dados
+
+    def insert(self, query, *args):
+        db = self._connect()
+        c = db.cursor()
         try:
             c.execute(query, args)
-            dados = c.fetchall()
-
-            return dados
-        except Exception as err:
-            print("Erro ocorreu durante a query: ", err, file=stderr)
+            return { "id": c.lastrowid }
+        except:
+            db.rollback()
         finally:
-            c.close()
+            self.dispose(db, c)
