@@ -31,9 +31,11 @@ class Db:
 
         Abre conexão com o banco, abre um cursor, executa  a query, fecha o cursor e então retorna os dados.
 
-        query -> str: Query a ser executada.
-        *args -> tuple: parametros que serão inseridos na query.
+        :param query: Query a ser executada.
+        :param args:  parametros que serão inseridos na query.
+        :return: Uma lista dos dados obtidos.
         """
+
         db = self._connect()
         c = db.cursor()
         c.execute(query, args)
@@ -43,6 +45,12 @@ class Db:
         return dados
 
     def insert(self, query, *args):
+        """Insere uma entidade.
+
+        :param query: Query a ser executada.
+        :param args: parametros que serão inseridos na query.
+        :return: Id da linha inserida.
+        """
         db = self._connect()
         c = db.cursor()
         try:
