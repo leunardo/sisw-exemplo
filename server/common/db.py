@@ -15,7 +15,6 @@ class Db:
                                  db='p_test',
                                  cursorclass=DictCursor)
 
-            db.autocommit(True)
             return db
 
         except Exception as err:
@@ -55,8 +54,9 @@ class Db:
         c = db.cursor()
         try:
             c.execute(query, args)
-            return { "id": c.lastrowid }
-        except:
+            db.commit()
+            return {"id": c.lastrowid}
+        except MySQLdb.Error:
             db.rollback()
         finally:
             self.dispose(db, c)
