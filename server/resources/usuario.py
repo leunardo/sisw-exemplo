@@ -1,17 +1,37 @@
 from repositories.usuario import RepositoryUsuario
-from common.util import Response
-from flask_restful import Resource
-from flask import make_response
-import json
+from common.util import make_response
+from flask_restful import Resource, reqparse
+# import json
 # from common.util import send_response
 
 
 class UsuarioResource(Resource):
     def __init__(self):
+        self._parser = reqparse.RequestParser()
+        self._parser.add_argument('nome', type=str)
+        self._parser.add_argument('id_usuario', type=int)
         self._repository = RepositoryUsuario()
 
-    def get(self, nome=None):
-        if nome:
-            return make_response(self._repository.get_user(nome))
+    def get(self, id_usuario=None):
+
+        if id_usuario:
+            return make_response(self._repository.get_user(id_usuario))
         else:
-            return make_response(Response(self._repository.get_all_users()))
+            return make_response(self._repository.get_all_users())
+
+    def post(self):
+        try:
+            res = make_response(self._repository.add_user(self._parser.parse_args()), status=201)
+            return res
+        except Exception as e:
+            return make_response(str(e), status=500)
+
+    def put(self, id_usuario=None):
+        if not id_usuario:
+            return make_response("Missing id", status=403)
+
+        try:
+            res = make_response(self._repository.alter_user(self._parser.parse_args(), id_usuario), status=204)
+            return res
+        except Exception as e:
+            return make_response(str(e), status=500)
