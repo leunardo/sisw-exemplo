@@ -1,7 +1,8 @@
 """Esse recurso é um exemplo de requisição para um servidor"""
 
 from flask_restful import Resource
-from common.util import send_response
+from common.util import make_response
+
 
 class HelloWorld(Resource):
     # Adicionar aqui os outros verbos
@@ -9,4 +10,4 @@ class HelloWorld(Resource):
     
     def get(self, nome="World"):
         texto = "Hello, %s" % nome
-        return send_response(texto)
+        return make_response(texto)
