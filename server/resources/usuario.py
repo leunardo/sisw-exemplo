@@ -1,8 +1,6 @@
 from repositories.usuario import RepositoryUsuario
 from common.util import make_response
 from flask_restful import Resource, reqparse
-# import json
-# from common.util import send_response
 
 
 class UsuarioResource(Resource):
