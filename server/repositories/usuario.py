@@ -20,4 +20,4 @@ class RepositoryUsuario:
 
     def alter_user(self, user, id):
         query = 'Update usuario set nome = %s where id_usuario = %s'
-        return self._db.query(query, user.nome, id)
+        return self._db.insert(query, user.nome, id)
