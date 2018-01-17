@@ -33,3 +33,13 @@ class UsuarioResource(Resource):
             return res
         except Exception as e:
             return make_response(str(e), status=500)
+
+    def delete(self, id_usuario=None):
+        if not id_usuario:
+            return make_response("You need to specify an id.", status=405)
+
+        try:
+            res = make_response(self._repository.delete_user(id_usuario), status=204)
+            return res
+        except Exception as e:
+            return make_response(str(e), status=500)

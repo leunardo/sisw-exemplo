@@ -60,3 +60,19 @@ class Db:
             db.rollback()
         finally:
             self.dispose(db, c)
+
+    def delete(self, query, *args):
+        """Deleta uma entidade.
+
+        :param query: Query a ser executada.
+        :param args: parametros que serão inseridos na query.
+        """
+        db = self._connect()
+        c = db.cursor()
+        try:
+            c.execute(query,args)
+            db.commit()
+        except MySQLdb.Error:
+            db.rollback()
+        finally:
+            self.dispose(db, c)

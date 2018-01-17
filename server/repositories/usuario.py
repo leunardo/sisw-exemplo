@@ -21,3 +21,7 @@ class RepositoryUsuario:
     def alter_user(self, user, id):
         query = 'Update usuario set nome = %s where id_usuario = %s'
         return self._db.insert(query, user.nome, id)
+
+    def delete_user(self, id):
+        query = 'Delete from usuario where id_usuario = %s'
+        return self._db.delete(query, id)

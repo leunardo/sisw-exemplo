@@ -6,7 +6,10 @@
           <input class="input" type="text" v-model="user.nome">
         </div>
         <div class="control">
-          <button class="button is-info" v-on:click="updateUser(user)">Alterar</button>
+          <button class="button is-warning" v-on:click="updateUser(user)">Alterar</button>
+        </div>
+        <div class="control">
+          <button class="button is-danger" v-on:click="deleteUser(user, i)">Excluir</button>
         </div>
       </div>
     </div>
@@ -42,7 +45,17 @@ export default {
       } catch (error) {
         console.log("Erro ao salvar.");
       }
-    }
+    },
+
+    async deleteUser(user, i) {
+      try {
+        await axios.delete(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`, user);
+        this.users.splice(i, 1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
   }
 }
 </script>
