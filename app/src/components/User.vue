@@ -13,11 +13,11 @@
         </div>
       </div>
 
-        </div>
+    </div>
     <div class="field has-addons">
-        <div class="control">
+      <div class="control">
         <input type="text" class="input" placeholder="João Augusto" v-model="newUser">
-        </div>
+      </div>
       <div class="control">
         <button class="button is-success" @click="insertUser(newUser)">Inserir</button>
       </div>
@@ -41,7 +41,7 @@ export default {
   methods: {
     async getAllUsers() {
       try {
-        let users = await axios.get(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}`);
+        const users = await axios.get(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}`);
         this.users = users.data;
       } catch (error) {
         console.log(error);
@@ -49,8 +49,9 @@ export default {
     },
 
     async updateUser(user) {
+      const url = `${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`;
       try {
-        await axios.put(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`, user);
+        await axios.put(url, user);
         alert("SALVO");
       } catch (error) {
         console.log("Erro ao salvar.");
@@ -58,8 +59,9 @@ export default {
     },
 
     async deleteUser(user, i) {
+      const url = `${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`;
       try {
-        await axios.delete(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`, user);
+        await axios.delete(url, user);
         this.users.splice(i, 1);
       } catch (error) {
         console.log(error);
