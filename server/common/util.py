@@ -15,6 +15,7 @@ class Response(flask.Response):
 
     def __init__(self, data, status, headers):
         headers['Content-type'] = 'application/json'
+        headers['Access-Control-Expose-Headers'] = 'Location, Last-Inserted-Id'
         super().__init__(response=dumps(data), status=status, headers=headers)
 
 

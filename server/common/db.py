@@ -55,7 +55,7 @@ class Db:
         try:
             c.execute(query, args)
             db.commit()
-            return {"id": c.lastrowid}
+            return c.lastrowid
         except MySQLdb.Error:
             db.rollback()
         finally:

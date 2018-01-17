@@ -19,7 +19,9 @@ class UsuarioResource(Resource):
 
     def post(self):
         try:
-            res = make_response(self._repository.add_user(self._parser.parse_args()), status=201)
+            last_id = self._repository.add_user(self._parser.parse_args())
+            headers = { 'Location': 'user/%s' % last_id, 'Last-Inserted-Id': last_id }
+            res = make_response(None, status=201, headers=headers)
             return res
         except Exception as e:
             return make_response(str(e), status=500)
