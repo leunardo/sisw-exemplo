@@ -6,11 +6,20 @@
           <input class="input" type="text" v-model="user.nome">
         </div>
         <div class="control">
-          <button class="button is-warning" v-on:click="updateUser(user)">Alterar</button>
+          <button class="button is-warning" @click="updateUser(user)">Alterar</button>
         </div>
         <div class="control">
-          <button class="button is-danger" v-on:click="deleteUser(user, i)">Excluir</button>
+          <button class="button is-danger" @click="deleteUser(user, i)">Excluir</button>
         </div>
+      </div>
+
+        </div>
+    <div class="field has-addons">
+        <div class="control">
+        <input type="text" class="input" placeholder="João Augusto" v-model="newUser">
+        </div>
+      <div class="control">
+        <button class="button is-success" @click="insertUser(newUser)">Inserir</button>
       </div>
     </div>
   </div>
@@ -23,7 +32,8 @@ import config from '../config'
 
 export default {
   data: ()=> ({
-    users: []
+    users: [],
+    newUser: "",
   }),
   created() {
     this.getAllUsers();
@@ -56,6 +66,16 @@ export default {
       }
     },
 
+    async insertUser(newUser) {
+      const url = `${config.SERVER_ADDRESS}/${config.ROUTES.USER}`;
+      try {
+        const data = await axios.post(url, { nome: newUser });
+        const id = data.headers['last-inserted-id'];
+        this.users.push({ nome: newUser, id_usuario: id });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
 </script>
