@@ -28,7 +28,7 @@ export default {
   methods: {
     async getAllUsers() {
       try {
-        let users = await axios.get(config.SERVER_ADDRESS + config.ROUTES.USER);
+        let users = await axios.get(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}`);
         this.users = users.data;
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ export default {
 
     async updateUser(user) {
       try {
-        await axios.put(config.SERVER_ADDRESS + `/user/${user.id_usuario}`, user);
+        await axios.put(`${config.SERVER_ADDRESS}/${config.ROUTES.USER}/${user.id_usuario}`, user);
         alert("SALVO");
       } catch (error) {
         console.log("Erro ao salvar.");
